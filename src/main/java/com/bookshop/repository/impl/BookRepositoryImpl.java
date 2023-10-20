@@ -39,8 +39,8 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public Optional<Book> findById(Long id) {
-        try {
-            return Optional.ofNullable(sessionFactory.openSession().find(Book.class, id));
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable(session.find(Book.class, id));
         } catch (Exception e) {
             throw new EntityNotFoundException("Can't find book by id: " + id, e);
         }

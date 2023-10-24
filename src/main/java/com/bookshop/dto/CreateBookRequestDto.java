@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public record CreateBookRequestDto(String title,
                                    String author,
-                                  String isbn,
+                                   String isbn,
                                    BigDecimal price,
-                                  String description,
+                                   String description,
                                    String coverImage) {
 
 }

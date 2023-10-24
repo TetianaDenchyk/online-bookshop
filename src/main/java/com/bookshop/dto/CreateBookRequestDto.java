@@ -5,12 +5,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
-import org.hibernate.validator.constraints.ISBN;
 
 public record CreateBookRequestDto(@NotBlank String title,
                                    @NotBlank String author,
                                    @NotBlank @Pattern(
-                                           regexp = "^(?=(?:[^0-9]*[0-9]){10}(?:(?:[^0-9]*[0-9]){3})?$)[\\d-]+$")
+                                           regexp = """
+                                                   ^(?=(?:[^0-9]*[0-9]){10}
+                                                   (?:(?:[^0-9]*[0-9]){3})?$)[\\d-]+$
+                                                   """)
                                    String isbn,
                                    @NotNull @PositiveOrZero BigDecimal price,
                                    String description,

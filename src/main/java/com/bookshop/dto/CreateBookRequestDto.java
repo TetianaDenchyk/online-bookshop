@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public record CreateBookRequestDto(@NotBlank String title,
                                    @NotBlank String author,
-                                   @ISBN
+                                   @ISBN @org.hibernate.validator.constraints.ISBN
                                    String isbn,
                                    @NotNull @PositiveOrZero BigDecimal price,
                                    String description,

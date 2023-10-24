@@ -16,7 +16,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler{
+public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataProcessingException.class)
     public ResponseEntity<Object> handleDataProcessingException(DataProcessingException ex) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)

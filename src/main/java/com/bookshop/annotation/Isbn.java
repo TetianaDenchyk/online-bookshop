@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.ConstraintComposition;
 @ReportAsSingleViolation
 @NotBlank
 @Pattern(regexp = "^(?=(?:[^0-9]*[0-9]){10}(?:(?:[^0-9]*[0-9]){3})?$)[\\d-]+$")
-public @interface ISBN {
+public @interface Isbn {
     String message() default "";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };

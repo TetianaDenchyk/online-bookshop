@@ -1,6 +1,6 @@
 package com.bookshop.dto;
 
-import com.bookshop.annotation.ISBN;
+import com.bookshop.annotation.Isbn;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public record CreateBookRequestDto(@NotBlank String title,
                                    @NotBlank String author,
-                                   @ISBN @org.hibernate.validator.constraints.ISBN
+                                   @Isbn
                                    String isbn,
                                    @NotNull @PositiveOrZero BigDecimal price,
                                    String description,

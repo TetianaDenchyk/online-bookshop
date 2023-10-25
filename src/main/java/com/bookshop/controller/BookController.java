@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class BookController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a book by id", description = "Get a book by id")
-    public BookDto getBookById(@PathVariable Long id) {
+    public BookDto getBookById(@PathVariable @Positive Long id) {
         return bookService.findById(id);
     }
 
@@ -53,14 +54,15 @@ public class BookController {
     @PutMapping("/{id}")
     @Operation(summary = "Update book by id",
             description = "Check if data is valid and update a book")
-    public BookDto updateBook(@PathVariable Long id,
+    public BookDto updateBook(@PathVariable @Positive Long id,
                               @RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.update(id, requestDto);
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete a book by id", description = "Delete a book by id")
-    public void deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable @Positive Long id) {
         bookService.deleteById(id);
     }
 }

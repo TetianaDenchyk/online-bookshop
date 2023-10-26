@@ -1,10 +1,9 @@
 package com.bookshop.annotation;
 
+import com.bookshop.validator.IsbnValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import jakarta.validation.ReportAsSingleViolation;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,11 +12,9 @@ import org.hibernate.validator.constraints.ConstraintComposition;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {})
+@Constraint(validatedBy = {IsbnValidator.class})
 @ConstraintComposition
 @ReportAsSingleViolation
-@NotBlank
-@Pattern(regexp = "^(?=(?:[^0-9]*[0-9]){10}(?:(?:[^0-9]*[0-9]){3})?$)[\\d-]+$")
 public @interface Isbn {
     String message() default "";
     Class<?>[] groups() default { };

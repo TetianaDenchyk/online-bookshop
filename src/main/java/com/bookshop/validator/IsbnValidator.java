@@ -5,9 +5,6 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class IsbnValidator implements ConstraintValidator<Isbn, String> {
-    @Override
-    public void initialize(Isbn isbn) {
-    }
 
     @Override
     public boolean isValid(String isbnField, ConstraintValidatorContext context) {

@@ -1,9 +1,10 @@
-package com.bookshop.dto.book;
+package com.bookshop.dto;
 
-import com.bookshop.annotation.Isbn;
+import com.bookshop.validator.annotation.Isbn;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 
 public record CreateBookRequestDto(@NotBlank String title,
@@ -11,7 +12,7 @@ public record CreateBookRequestDto(@NotBlank String title,
                                    @Isbn
                                    String isbn,
                                    @NotNull @PositiveOrZero BigDecimal price,
-                                   String description,
-                                   String coverImage) {
+                                   @Size(max = 255) String description,
+                                   @Size(max = 255) String coverImage) {
 
 }

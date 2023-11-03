@@ -1,4 +1,4 @@
-package com.bookshop.annotation;
+package com.bookshop.validator.annotation;
 
 import com.bookshop.validator.FieldMatchValidator;
 import jakarta.validation.Constraint;

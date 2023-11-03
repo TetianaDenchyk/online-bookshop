@@ -9,6 +9,14 @@ databaseChangeLog:
               - column:
                   name: user_id
                   type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_user_id
+                    references: users(id)
               - column:
                   name: actor_id
                   type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_role_id
+                    references: roles(id)

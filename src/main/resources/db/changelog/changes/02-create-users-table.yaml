@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-users-table
-      author: tetiana
+      author: Tetiana
       changes:
         - createTable:
             tableName: users
@@ -25,20 +25,17 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: firstName
+                  name: first_name
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: lastName
+                  name: last_name
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: shippingAddress
-                  type: varchar(255)
-              - column:
-                  name: cover_image
+                  name: shipping_address
                   type: varchar(255)
               - column:
                   name: is_deleted

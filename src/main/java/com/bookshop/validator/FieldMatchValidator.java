@@ -1,7 +1,7 @@
 package com.bookshop.validator;
 
-import com.bookshop.annotation.FieldMatch;
 import com.bookshop.dto.user.UserRegistrationRequestDto;
+import com.bookshop.validator.annotation.FieldMatch;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

@@ -1,4 +1,4 @@
-package com.bookshop.dto;
+package com.bookshop.dto.book;
 
 import com.bookshop.validator.annotation.Isbn;
 import jakarta.validation.constraints.NotBlank;

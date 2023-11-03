@@ -1,10 +1,9 @@
 package com.bookshop.controller;
 
-import java.util.List;
 import com.bookshop.dto.category.CategoryDto;
-import com.bookshop.repository.CategoryRepository;
 import com.bookshop.service.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;

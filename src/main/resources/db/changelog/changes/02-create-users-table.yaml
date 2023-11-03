@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-users-table
-      author: Tetiana
+      author: tetiana
       changes:
         - createTable:
             tableName: users
@@ -14,28 +14,28 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: title
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: author
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: isbn
+                  name: email
                   type: varchar(255)
                   constraints:
                     nullable: false
                     unique: true
               - column:
-                  name: price
-                  type: decimal
+                  name: password
+                  type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: description
+                  name: firstName
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lastName
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: shippingAddress
                   type: varchar(255)
               - column:
                   name: cover_image

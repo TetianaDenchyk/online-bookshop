@@ -1,9 +1,10 @@
 package com.bookshop.mapper;
 
 import com.bookshop.config.MapperConfig;
-import com.bookshop.dto.BookDto;
-import com.bookshop.dto.CreateBookRequestDto;
+import com.bookshop.dto.book.BookDto;
+import com.bookshop.dto.book.CreateBookRequestDto;
 import com.bookshop.model.Book;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
@@ -14,4 +15,11 @@ public interface BookMapper {
     Book toBook(CreateBookRequestDto requestDto);
 
     void updateBook(CreateBookRequestDto dto, @MappingTarget Book book);
+
+//    BookDtoWithoutCategoryIds toDtoWithoutCategories(Book book);
+//
+//    @AfterMapping
+//    default void setCategoriesIds(@MappingTarget BookDto bookDto, Book book) {
+//
+//    }
 }

@@ -23,9 +23,8 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     @Override
-    public UserResponseDto register(UserRegistrationRequestDto request)
-            throws RegistrationException {
-        if (userRepository.findByEmail(request.email()).isPresent()) {
+    public UserResponseDto register(UserRegistrationRequestDto request) {
+        if (userRepository.existsByEmail(request.email())) {
             throw new RegistrationException("Unable to complete registration. User already exists");
         }
         Role defaultRole = roleRepository.findRoleByName(Role.RoleName.USER);

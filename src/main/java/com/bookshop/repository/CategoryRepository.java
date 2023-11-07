@@ -3,11 +3,14 @@ package com.bookshop.repository;
 import com.bookshop.model.Book;
 import com.bookshop.model.Category;
 import java.util.List;
-import org.mapstruct.Mapping;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-//    List<Book> findAllByCategoryId(Long categoryId);
+
+    @Query(value = "from Book b join fetch b.categories c where c.id= :categoryId")
+    List<Book> findAllByCategoryId(@Param("categoryId") Long categoryId);
 }

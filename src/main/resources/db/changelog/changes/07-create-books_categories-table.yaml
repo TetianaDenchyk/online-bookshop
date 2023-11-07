@@ -12,11 +12,11 @@ databaseChangeLog:
                   constraints:
                     nullable: true
                     foreignKeyName: fk_book_id
-                    references: book(id)
+                    references: books(id)
               - column:
                   name: category_id
                   type: bigint
                   constraints:
                     nullable: true
                     foreignKeyName: fk_category_id
-                    references: category(id)
+                    references: categories(id)

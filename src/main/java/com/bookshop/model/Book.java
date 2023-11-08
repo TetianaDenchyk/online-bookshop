@@ -47,6 +47,7 @@ public class Book {
     private String coverImage;
 
     @ManyToMany
+    @ToString.Exclude
     @JoinTable(name = "books_categories",
                 joinColumns = @JoinColumn(name = "book_id"),
                 inverseJoinColumns = @JoinColumn(name = "category_id"))

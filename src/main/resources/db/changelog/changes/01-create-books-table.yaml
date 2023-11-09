@@ -46,8 +46,3 @@ databaseChangeLog:
                   defaultValue: 'false'
                   constraints:
                     nullable: false
-
-
-
-
-

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-
     @Query(value = "from Book b join fetch b.categories c where c.id= :categoryId")
     List<Book> findAllByCategoryId(@Param("categoryId") Long categoryId);
 }

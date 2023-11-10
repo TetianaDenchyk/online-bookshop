@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-books-table
-      author: tetiana
+      author: Tetiana
       changes:
         - createTable:
             tableName: books
@@ -46,4 +46,3 @@ databaseChangeLog:
                   defaultValue: 'false'
                   constraints:
                     nullable: false
-

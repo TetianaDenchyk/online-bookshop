@@ -1,13 +1,17 @@
 package com.bookshop.service.impl;
 
-import com.bookshop.dto.BookDto;
-import com.bookshop.dto.CreateBookRequestDto;
+import com.bookshop.dto.book.BookDto;
+import com.bookshop.dto.book.CreateBookRequestDto;
 import com.bookshop.exception.EntityNotFoundException;
 import com.bookshop.mapper.BookMapper;
 import com.bookshop.model.Book;
+import com.bookshop.model.Category;
 import com.bookshop.repository.BookRepository;
+import com.bookshop.repository.CategoryRepository;
 import com.bookshop.service.BookService;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,11 +20,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
     private final BookMapper bookMapper;
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
         Book book = bookMapper.toBook(requestDto);
+        book.setCategories(createNewSetOfCategories(requestDto.categoriesIds()));
         return bookMapper.toDto(bookRepository.save(book));
     }
 
@@ -52,6 +58,13 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("There is no book with the id " + id));
         bookMapper.updateBook(requestDto, book);
+        book.setCategories(createNewSetOfCategories(requestDto.categoriesIds()));
         return bookMapper.toDto(bookRepository.save(book));
+    }
+
+    private Set<Category> createNewSetOfCategories(Set<Long> categoriesIds) {
+        return categoriesIds.stream()
+                .map(categoryRepository::getReferenceById)
+                .collect(Collectors.toSet());
     }
 }

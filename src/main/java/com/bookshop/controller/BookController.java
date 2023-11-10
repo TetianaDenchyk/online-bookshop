@@ -1,7 +1,7 @@
 package com.bookshop.controller;
 
-import com.bookshop.dto.BookDto;
-import com.bookshop.dto.CreateBookRequestDto;
+import com.bookshop.dto.book.BookDto;
+import com.bookshop.dto.book.CreateBookRequestDto;
 import com.bookshop.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,14 +34,14 @@ public class BookController {
     @GetMapping
     @Operation(summary = "Get all books by page",
             description = "Get a list of all books at x page with y size")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public List<BookDto> getAll(Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a book by id", description = "Get a book by id")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public BookDto getBookById(@PathVariable @Positive Long id) {
         return bookService.findById(id);
     }

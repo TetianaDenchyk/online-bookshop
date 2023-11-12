@@ -5,6 +5,7 @@ import com.bookshop.dto.user.UserResponseDto;
 import com.bookshop.exception.RegistrationException;
 import com.bookshop.mapper.UserMapper;
 import com.bookshop.model.Role;
+import com.bookshop.model.ShoppingCart;
 import com.bookshop.model.User;
 import com.bookshop.repository.RoleRepository;
 import com.bookshop.repository.UserRepository;
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toUser(request);
         user.setRoles(Set.of(defaultRole));
         user.setPassword(passwordEncoder.encode(request.password()));
+        user.addShoppingCart(new ShoppingCart()); // can I do like that?
         return userMapper.toUserResponse(userRepository.save(user));
     }
 }

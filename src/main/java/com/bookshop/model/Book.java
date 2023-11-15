@@ -24,7 +24,7 @@ import org.hibernate.annotations.Where;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"categories", "cartItems"})
 @Entity
 @SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted=false")
@@ -51,7 +51,6 @@ public class Book {
     private String coverImage;
 
     @ManyToMany
-    @ToString.Exclude
     @JoinTable(name = "books_categories",
                 joinColumns = @JoinColumn(name = "book_id"),
                 inverseJoinColumns = @JoinColumn(name = "category_id"))

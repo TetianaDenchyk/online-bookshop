@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -39,7 +38,7 @@ public class ShoppingCart {
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "shoppingCart",
             orphanRemoval = true,
-            cascade = CascadeType.REMOVE
+            cascade = CascadeType.ALL
     )
     private Set<CartItem> cartItems = new HashSet<>();
 

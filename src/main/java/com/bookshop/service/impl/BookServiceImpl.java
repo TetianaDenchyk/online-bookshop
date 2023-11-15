@@ -43,7 +43,13 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() ->
                         new EntityNotFoundException("Can't find a book with the id: " + id));
         return bookMapper.toDto(book);
+    }
 
+    @Override
+    public Book findBookById(Long id) {
+        return bookRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Can't find a book with the id: " + id));
     }
 
     @Override
@@ -63,6 +69,9 @@ public class BookServiceImpl implements BookService {
     }
 
     private Set<Category> createNewSetOfCategories(Set<Long> categoriesIds) {
+        if (categoriesIds == null) {
+            return null;
+        }
         return categoriesIds.stream()
                 .map(categoryRepository::getReferenceById)
                 .collect(Collectors.toSet());

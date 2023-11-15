@@ -8,10 +8,13 @@ import com.bookshop.model.User;
 import com.bookshop.service.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Shopping Cart Management",
         description = "Add, update and delete cart items in a shopping cart.")
 @RestController
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/cart")
 public class ShoppingCartController {
@@ -36,7 +40,7 @@ public class ShoppingCartController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('USER')")
     public ShoppingCartResponseDto addBookToCart(
-            @RequestBody CreateCartItemDto cartItemDto, Authentication authentication) {
+            @RequestBody @Valid CreateCartItemDto cartItemDto, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return shoppingCartService.save(cartItemDto, user);
     }
@@ -60,7 +64,7 @@ public class ShoppingCartController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('USER')")
     public void deleteCartItemFromShoppingCart(
-            @PathVariable Long cartItemId, Authentication authentication) {
+            @PathVariable @Positive Long cartItemId, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         shoppingCartService.deleteCartItemFromShoppingCart(user.getId(), cartItemId);
     }
@@ -70,9 +74,9 @@ public class ShoppingCartController {
             description = "User can change book quantity in cart item in their shopping cart.")
     @PreAuthorize("hasRole('USER')")
     public CartItemResponseDto updateCartItem(
-            @PathVariable Long cartItemId,
+            @PathVariable @Positive Long cartItemId,
             Authentication authentication,
-            @RequestBody UpdateCartItemDto cartItemDto) {
+            @RequestBody @Valid UpdateCartItemDto cartItemDto) {
         User user = (User) authentication.getPrincipal();
         return shoppingCartService.updateCartItem(user.getId(), cartItemId, cartItemDto);
     }

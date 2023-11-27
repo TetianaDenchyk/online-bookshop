@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Collection;
@@ -59,6 +60,11 @@ public class User implements UserDetails {
             mappedBy = "user",
             cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
+
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true)
+    private Set<Order> orders;
 
     public void addShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;

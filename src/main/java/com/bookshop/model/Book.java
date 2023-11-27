@@ -61,6 +61,11 @@ public class Book {
             cascade = CascadeType.REMOVE)
     private List<CartItem> cartItems = new ArrayList<>();
 
+    @OneToMany(mappedBy = "book",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true)
+    private Set<OrderItem> orderItems;
+
     @Column(nullable = false)
     private boolean isDeleted = false;
 }

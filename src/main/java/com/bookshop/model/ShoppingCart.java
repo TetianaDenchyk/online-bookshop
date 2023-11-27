@@ -35,8 +35,7 @@ public class ShoppingCart {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "shoppingCart",
+    @OneToMany(mappedBy = "shoppingCart",
             orphanRemoval = true,
             cascade = CascadeType.ALL
     )
@@ -44,4 +43,14 @@ public class ShoppingCart {
 
     @Column(nullable = false)
     private boolean isDeleted = false;
+
+    public void addCartItem(CartItem cartItem) {
+        cartItems.add(cartItem);
+        cartItem.setShoppingCart(this);
+    }
+
+    public void removeCartItem(CartItem cartItem) {
+        cartItems.remove(cartItem);
+        cartItem.setShoppingCart(null);
+    }
 }

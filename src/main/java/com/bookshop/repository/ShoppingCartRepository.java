@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
-    @EntityGraph(attributePaths = {"user", "cartItems"})
+    @EntityGraph(attributePaths = {"cartItems"})
     Optional<ShoppingCart> findShoppingCartByUserId(Long userId);
 }

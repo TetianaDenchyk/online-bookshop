@@ -31,20 +31,20 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCartResponseDto save(CreateCartItemDto createCartItemDto, User user) {
         User existingUser = userRepository.findByEmail(user.getEmail()).orElseThrow(
-                () -> new EntityNotFoundException("User isn't found")
+                () -> new EntityNotFoundException("User with email %s isn't found"
+                        .formatted(user.getEmail()))
         );
         ShoppingCart shoppingCart = existingUser.getShoppingCart();
         CartItem cartItem = cartItemMapper.toCartItem(createCartItemDto);
-        shoppingCart.getCartItems().add(cartItem);
-        cartItem.setShoppingCart(shoppingCart);
-        return shoppingCartMapper.toDto(shoppingCartRepository.save(shoppingCart));
+        shoppingCart.addCartItem(cartItem);
+        return shoppingCartMapper.toDto(shoppingCart);
     }
 
     @Transactional(readOnly = true)
     @Override
     public ShoppingCartResponseDto findByUserId(Long id) {
         ShoppingCart shoppingCart = getCartByUserId(id);
-        return shoppingCartMapper.toDto(shoppingCartRepository.save(shoppingCart));
+        return shoppingCartMapper.toDto(shoppingCart);
     }
 
     @Transactional
@@ -52,7 +52,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public void deleteCartItemFromShoppingCart(Long userId, Long cartItemId) {
         ShoppingCart shoppingCart = getCartByUserId(userId);
         CartItem cartItem = getCartItemById(cartItemId);
-        shoppingCart.getCartItems().remove(cartItem);
+        shoppingCart.removeCartItem(cartItem);
     }
 
     @Transactional

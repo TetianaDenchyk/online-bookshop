@@ -44,13 +44,13 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     ) {
         Map<String, Object> body = new LinkedHashMap<>();
         List<String> errors = ex.getBindingResult().getAllErrors().stream()
-                .map(CustomGlobalExceptionHandler::getErrorMessage)
+                .map(this::getErrorMessage)
                 .toList();
         body.put("errors", errors);
         return new ResponseEntity<>(body, headers, status);
     }
 
-    private static String getErrorMessage(ObjectError e) {
+    private String getErrorMessage(ObjectError e) {
         if (e instanceof FieldError) {
             String field = ((FieldError) e).getField();
             String message = e.getDefaultMessage();

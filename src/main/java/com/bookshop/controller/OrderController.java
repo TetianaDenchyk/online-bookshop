@@ -1,7 +1,5 @@
 package com.bookshop.controller;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import com.bookshop.dto.order.OrderRequestDto;
 import com.bookshop.dto.order.OrderResponseDto;
 import com.bookshop.dto.order.OrderStatusUpdateDto;
@@ -10,6 +8,8 @@ import com.bookshop.model.User;
 import com.bookshop.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +37,7 @@ public class OrderController {
     @PostMapping
     @Operation(summary = "Create order",
                 description = """
-                        User can create order. 
+                        User can create order.
                         After all cart items are deleted.
                         Params: shipping address""")
     @PreAuthorize("hasRole('USER')")
@@ -52,7 +52,7 @@ public class OrderController {
                 description = "User can get order history")
     @PreAuthorize("hasRole('USER')")
     public List<OrderResponseDto> getAllOrders(Authentication authentication,
-                                               @PageableDefault(page = 0, size = 7) Pageable pageable) {
+                                               @PageableDefault(size = 7) Pageable pageable) {
         User user = (User) authentication.getPrincipal();
         return orderService.findAllOrders(user.getId(), pageable);
     }
@@ -62,7 +62,8 @@ public class OrderController {
             description = "User can get all order items from a specific order")
     @PreAuthorize("hasRole('USER')")
     public List<OrderItemResponseDto> getOrderItemsOfOrder(@PathVariable @Positive Long orderId,
-                                                           @PageableDefault(page = 0, size = 7) Pageable pageable,
+                                                           @PageableDefault(size = 7)
+                                                           Pageable pageable,
                                                            Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return orderService.findAllByOrderId(orderId, pageable, user.getId());

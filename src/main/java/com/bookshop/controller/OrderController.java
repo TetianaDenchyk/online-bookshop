@@ -22,7 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "", description = "")
+@Tag(name = "Order Management",
+        description = "Endpoints to create, update and get orders and order items")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/orders")
@@ -30,7 +31,11 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    @Operation
+    @Operation(summary = "Create order",
+                description = """
+                        User can create order. 
+                        After all cart items are deleted.
+                        Params: shipping address""")
     @PreAuthorize("hasRole('USER')")
     public OrderResponseDto createOrder(Authentication authentication,
                                         @RequestBody OrderRequestDto requestDto) {
@@ -39,6 +44,8 @@ public class OrderController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all orders",
+                description = "User can get order history")
     @PreAuthorize("hasRole('USER')")
     public List<OrderResponseDto> getAllOrders(Authentication authentication,
                                                Pageable pageable) {
@@ -47,6 +54,8 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}/items")
+    @Operation(summary = "Get order items from order",
+            description = "User can get all order items from a specific order")
     @PreAuthorize("hasRole('USER')")
     public List<OrderItemResponseDto> getOrderItemsOfOrder(@PathVariable @Positive Long orderId,
                                                            Pageable pageable,
@@ -56,15 +65,19 @@ public class OrderController {
     }
 
     @GetMapping("{orderId}/items/{id}")
+    @Operation(summary = "Get one order item from order",
+            description = "User can get a certain order item from a certain order")
     @PreAuthorize("hasRole('USER')")
-    public OrderItemResponseDto getOrderItemWithinOrder(@PathVariable @Positive Long orderId,
-                                                        @PathVariable @Positive Long id,
-                                                        Authentication authentication) {
+    public OrderItemResponseDto getOrderItemFromOrder(@PathVariable @Positive Long orderId,
+                                                      @PathVariable @Positive Long id,
+                                                      Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return orderService.findOrderItemByIdInOrder(orderId, id, user.getId());
     }
 
     @PatchMapping("/{orderId}")
+    @Operation(summary = "Update order status",
+            description = "Admin can change status of a certain order")
     @PreAuthorize("hasRole('ADMIN')")
     public OrderResponseDto updateStatus(@PathVariable @Positive Long orderId,
                                          @RequestBody OrderStatusUpdateDto updateDto) {

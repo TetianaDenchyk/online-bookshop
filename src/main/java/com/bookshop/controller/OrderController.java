@@ -1,5 +1,6 @@
 package com.bookshop.controller;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import com.bookshop.dto.order.OrderRequestDto;
 import com.bookshop.dto.order.OrderResponseDto;
@@ -12,8 +13,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Order Management",
         description = "Endpoints to create, update and get orders and order items")
 @RestController
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/orders")
 public class OrderController {
@@ -38,7 +42,7 @@ public class OrderController {
                         Params: shipping address""")
     @PreAuthorize("hasRole('USER')")
     public OrderResponseDto createOrder(Authentication authentication,
-                                        @RequestBody OrderRequestDto requestDto) {
+                                        @RequestBody @Valid OrderRequestDto requestDto) {
         User user = (User) authentication.getPrincipal();
         return orderService.createOrder(user, requestDto);
     }
@@ -48,7 +52,7 @@ public class OrderController {
                 description = "User can get order history")
     @PreAuthorize("hasRole('USER')")
     public List<OrderResponseDto> getAllOrders(Authentication authentication,
-                                               Pageable pageable) {
+                                               @PageableDefault(page = 0, size = 7) Pageable pageable) {
         User user = (User) authentication.getPrincipal();
         return orderService.findAllOrders(user.getId(), pageable);
     }
@@ -58,7 +62,7 @@ public class OrderController {
             description = "User can get all order items from a specific order")
     @PreAuthorize("hasRole('USER')")
     public List<OrderItemResponseDto> getOrderItemsOfOrder(@PathVariable @Positive Long orderId,
-                                                           Pageable pageable,
+                                                           @PageableDefault(page = 0, size = 7) Pageable pageable,
                                                            Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return orderService.findAllByOrderId(orderId, pageable, user.getId());
@@ -80,7 +84,7 @@ public class OrderController {
             description = "Admin can change status of a certain order")
     @PreAuthorize("hasRole('ADMIN')")
     public OrderResponseDto updateStatus(@PathVariable @Positive Long orderId,
-                                         @RequestBody OrderStatusUpdateDto updateDto) {
+                                         @RequestBody @Valid OrderStatusUpdateDto updateDto) {
         return orderService.updateOrderStatus(orderId, updateDto.newStatus());
     }
 }

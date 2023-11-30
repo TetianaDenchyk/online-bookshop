@@ -1,4 +1,4 @@
-# <h1 align="center">📖 Book Shop App📖 </h1>
+# <h1 align="center">📖 Online Book Shop App📖 </h1>
 
 ## Introduction
 
@@ -78,10 +78,19 @@
 | **HTTP method** |         **Endpoint**          | **Role** | **Function**                                                                |
 |:---------------:|:-----------------------------:|:--------:|:----------------------------------------------------------------------------|
 |       GET       |             /cart             |   USER   | Enables users to get all cart items (books) in their shopping carts         |
-|       PUT       | /cart/cart-items/{cartItemId} |   USER   | Enables users to change book quantity of a cart item in their shopping cart |
-|      POST       |             /cart             |   USER   | Enables users to add book to their shopping cart                            |
+|       PUT       | /cart/cart-items/{cartItemId} |   USER   | Enables users to change book quantity in a cart item in their shopping cart |
+|      POST       |             /cart             |   USER   | Enables users to add a cart item (book) to their shopping cart              |
 |     DELETE      | /cart/cart-items/{cartItemId} |   USER   | Enables users to delete a cart item from their shopping cart                |
 
 ---
 
+## **Order Controller:** _Managing and browsing order and order items_
 
+| **HTTP method** |         **Endpoint**         | **Role** | **Function**                                                   |
+|:---------------:|:----------------------------:|:--------:|:---------------------------------------------------------------|
+|      POST       |           /orders            |   USER   | Enables users to create a new order                            |
+|       GET       |           /orders            |   USER   | Enables users to get their order history                       |
+|      PATCH      |      /orders/{orderId}       |  ADMIN   | Enables admins to change status of a certain order             |
+|       GET       |   /orders/{orderId}/items    |   USER   | Enables users to get all order items from a specific order     |
+|       GET       | /orders/{orderId}/items/{id} |   USER   | Enables users to get a certain order item from a certain order |
+---

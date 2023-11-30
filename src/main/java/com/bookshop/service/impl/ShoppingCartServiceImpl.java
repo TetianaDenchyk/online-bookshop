@@ -37,7 +37,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart = existingUser.getShoppingCart();
         CartItem cartItem = cartItemMapper.toCartItem(createCartItemDto);
         shoppingCart.addCartItem(cartItem);
-        return shoppingCartMapper.toDto(shoppingCart);
+        return shoppingCartMapper.toDto(shoppingCartRepository.save(shoppingCart));
     }
 
     @Transactional(readOnly = true)

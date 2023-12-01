@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(
                         () -> new EntityNotFoundException("There is no user with the id: "
                                 + user.getId())
-        );
+                );
         Set<CartItem> cartItems = shoppingCart.getCartItems();
         if (cartItems.isEmpty()) {
             throw new CreateOrderException("There is nothing in the shopping cart.");
@@ -52,22 +52,8 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(LocalDateTime.now());
         order.setStatus(Order.Status.CREATED);
         order.setShippingAddress(orderRequestDto.shippingAddress());
-        Set<OrderItem> orderItems = new HashSet<>();
-        order.setOrderItems(orderItems);
-        for (CartItem cartItem : cartItems) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setBook(cartItem.getBook());
-            orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPrice(cartItem.getBook().getPrice());
-            orderItem.setOrder(order);
-            orderItems.add(orderItem);
-            cartItem.setShoppingCart(null);
-        }
-        BigDecimal total = order.getOrderItems().stream()
-                .map(i -> i.getPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        order.setTotal(total);
+        order.setOrderItems(createOrderItems(cartItems, order));
+        order.setTotal(countTotalSum(order.getOrderItems()));
         shoppingCart.getCartItems().clear();
         return orderMapper.toDto(orderRepository.save(order));
     }
@@ -83,14 +69,8 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderItemResponseDto> findAllByOrderId(Long orderId,
                                                        Pageable pageable,
                                                        Long userId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(
-                () -> new EntityNotFoundException("There is no order with the id: " + orderId)
-        );
-        if (!order.getUser().getId().equals(userId)) {
-            throw new EntityNotFoundException(
-                    "There is no order with the id %d in your order history"
-                    .formatted(orderId));
-        }
+        Order order = checkIfOrderExistsById(orderId);
+        checkIfOrderBelongsToUser(order.getUser().getId(), userId, orderId);
         return orderItemRepository.findAllByOrderId(orderId, pageable)
                 .stream()
                 .map(orderItemMapper::toDto)
@@ -98,30 +78,63 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderItemResponseDto findOrderItemByIdInOrder(Long orderId, Long id, Long userId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(
-                () -> new EntityNotFoundException("There is no order with id: " + orderId)
+    public OrderItemResponseDto findOrderItemByIdInOrder(Long orderId,
+                                                         Long orderItemId,
+                                                         Long userId) {
+        Order order = checkIfOrderExistsById(orderId);
+        checkIfOrderBelongsToUser(order.getUser().getId(), userId, orderId);
+        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(
+                () -> new EntityNotFoundException(
+                        "There is no order item with the id: " + orderItemId)
         );
-        if (!order.getUser().getId().equals(userId)) {
-            throw new EntityNotFoundException("There is no order with id %d in your order history"
-                    .formatted(orderId));
+        if (orderItem.getOrder().getId().equals(orderId)) {
+            return orderItemMapper.toDto(orderItem);
+        } else {
+            throw new EntityNotFoundException(
+                    "There is no order item with the id: %d in your order"
+                            .formatted(orderItemId));
         }
-        return order.getOrderItems().stream()
-                .filter(i -> i.getId().equals(id))
-                .map(orderItemMapper::toDto)
-                .findFirst()
-                .orElseThrow(
-                        () -> new EntityNotFoundException(
-                                "There is no order item with the id: " + id)
-                );
     }
 
     @Override
     public OrderResponseDto updateOrderStatus(Long orderId, String newStatus) {
-        Order order = orderRepository.findById(orderId).orElseThrow(
-                () -> new EntityNotFoundException("There is no order with id: " + orderId)
-        );
+        Order order = checkIfOrderExistsById(orderId);
         order.setStatus(Order.Status.valueOf(newStatus));
         return orderMapper.toDto(order);
+    }
+
+    private Order checkIfOrderExistsById(Long orderId) {
+        return orderRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException("There is no order with id: " + orderId)
+        );
+    }
+
+    private void checkIfOrderBelongsToUser(Long userIdFromRequest,
+                                           Long actualUserId,
+                                           Long orderId) {
+        if (!userIdFromRequest.equals(actualUserId)) {
+            throw new EntityNotFoundException("There is no order with id %d in your order history"
+                    .formatted(orderId));
+        }
+    }
+
+    private Set<OrderItem> createOrderItems(Set<CartItem> cartItems, Order order) {
+        Set<OrderItem> orderItems = new HashSet<>();
+        for (CartItem cartItem : cartItems) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setBook(cartItem.getBook());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setPrice(cartItem.getBook().getPrice());
+            orderItem.setOrder(order);
+            orderItems.add(orderItem);
+            cartItem.setShoppingCart(null);
+        }
+        return orderItems;
+    }
+
+    private BigDecimal countTotalSum(Set<OrderItem> orderItems) {
+        return orderItems.stream()
+                .map(i -> i.getPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

@@ -55,7 +55,7 @@ public class OrderController {
                 description = "User can get order history")
     @PreAuthorize("hasRole('USER')")
     public List<OrderResponseDto> getAllOrders(Authentication authentication,
-                                               @PageableDefault(size = 7) Pageable pageable) {
+                                               Pageable pageable) {
         User user = (User) authentication.getPrincipal();
         return orderService.findAllOrders(user.getId(), pageable);
     }

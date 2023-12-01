@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 public record OrderResponseDto(Long userId,
+                               Long orderId,
                                Order.Status status,
                                BigDecimal total,
                                LocalDateTime orderDate,

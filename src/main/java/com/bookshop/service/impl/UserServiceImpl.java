@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toUser(request);
         user.setRoles(Set.of(defaultRole));
         user.setPassword(passwordEncoder.encode(request.password()));
-        user.addShoppingCart(new ShoppingCart()); // can I do like that?
+        user.addShoppingCart(new ShoppingCart());
         return userMapper.toUserResponse(userRepository.save(user));
     }
 }

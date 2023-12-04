@@ -1,8 +1,20 @@
-# <h1 align="center">📖 Online Book Shop App📖 </h1>
+# <h1 align="center">📖 Novel Nebula 📖 </h1>
+<p align="center"> <b> Online Bookshop App </b></p>
+
 
 ## Introduction
 
-**_Welcome to the Online Book Shop app!_** ⭐
+**_Welcome to Novel Nebula app!_** ⭐
+
+This is a handy and secure app which allows users to make purchases online.
+Admins can add new books to DB, all books have categories, so it is easy to filter and find them by category.
+A books that user plans to buy they add to a shopping cart. After creating an order 
+the shopping cart is cleared. 
+Before accessing the app user should authorize (enter email and password). As it is a RESTful application
+JWT is used. It is sent to the user after login and protects access to the app.
+All users are divided into admins and users which provides them with certain rights in the app.
+
+
 * Do you want to **keep track** of the stock of books that there is in your shop?
 * Do you want to use **handy** tool for that purpose?
 * Are you **tired** of numerous pages of confusing documentation?
@@ -40,6 +52,13 @@
 ![database structure](assets/database.png)
 
 ## Controllers and endpoint available ⬇
+All unauthenticated users can register and login. After users can see all books as well as info on only 
+a certain book, they can see all categories and all books present in one category. 
+Users can put a book into a shopping cart, change chosen quantity, delete it from shopping cart or see all
+books that they added there before. Also, they can place an order, see their order history, items from a 
+specific order.
+Admins can modify DB: add a new book, update info on it or delete. They can do the same with categories.
+Admins can also change status of a certain order.
 
 ## **Authentication Controller:**
 

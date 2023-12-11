@@ -18,8 +18,9 @@ All users are divided into admins and users which provides them with certain rig
 * Do you want to **keep track** of the stock of books that there is in your shop?
 * Do you want to use **handy** tool for that purpose?
 * Are you **tired** of numerous pages of confusing documentation?
-* Do you want to provide your customers with **enjoyable** way of making purchases in your book shop?
-* Moreover, customers won't be limited with open hours of the shop. This service will be  **available 24/7**.
+* Do you want to provide your customers with **enjoyable** way of making purchases in your bookshop?
+
+[//]: # (* Moreover, customers won't be limited with open hours of the shop. This service will be  **available 24/7**.)
 
 ###  If you have ever faced any of the above problems, you are in the right place to solve them once and forever. 🎯
 
@@ -41,11 +42,11 @@ All users are divided into admins and users which provides them with certain rig
 1. Make sure you have JDK and Docker installed
 2. Clone the repository from GitHub
 3. Create .env file and fill in all necessary variables 
-(You can find them in .env-sample)
+(You can find them in .env.sample)
 4. Run the command mvn clean package
 5. Run docker-compose up --build to build and start the Docker containers 
-6. The application should be running at http://localhost:8089
-7. Swagger is available for testing at http://localhost:8089/swagger-ui/index.html#/
+6. The application should be running at http://localhost:8081
+7. Swagger is available for testing at http://localhost:8081/swagger-ui/index.html#/
 
 ## Database structure
 
